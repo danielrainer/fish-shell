@@ -50,14 +50,29 @@ mkdir -p $tmpdir/explicit/share/completions $tmpdir/explicit/share/functions
 for f in share/config.fish share/completions/*.fish share/functions/*.fish
     # Extract explicit attempts to translate a message. That is, those that are of the form
     # `(_ "message")`.
-    string replace --filter --regex $explicit_regex '$1' <$f | string unescape \
-        | string replace --all '"' '\\"' | string replace -r '(.*)' 'N_ "$1"' >$tmpdir/explicit/$f
+    # Start by transforming the matching lines according to $explicit_regex and adding 'N_ ' as
+    # a prefix.
+    # Then, replace all lines without this prefix by empty lines.
+    # These lines are kept to ensure that the correct line number makes it into the pot file.
+    # Replacing irrelevant lines by empty lines must happen before unescaping, because otherwise
+    # multi-line commands (lines ending on \) would get merged, changing the line count.
+    # Double quotes are escaped, and finally unescaped double quotes are added around the string.
+    # The result will be a file consisting of empty lines and potentially some lines prefixed with
+    # 'N_ ', followed by a double-quoted string.
+    string replace --regex $explicit_regex 'N_ $1' <$f \
+        | sed '/^N_ / !{s/^.*$//}' \
+        | string unescape \
+        | string replace --all '"' '\\"' \
+        | string replace --regex '^N_ (.*)$' 'N_ "$1"' \
+        >$tmpdir/explicit/$f
 
-    # Handle `complete` / `function` description messages. The `| fish` is subtle. It basically
-    # avoids the need to use `source` with a command substitution that could affect the current
-    # shell.
-    string replace --filter --regex $implicit_regex '$1' <$f | string unescape \
-        | string replace --all '"' '\\"' | string replace -r '(.*)' 'N_ "$1"' >$tmpdir/implicit/$f
+    # Works analogously to the explicit version.
+    string replace --regex $implicit_regex 'N_ $1' <$f \
+        | sed '/^N_ / !{s/^.*$//}' \
+        | string unescape \
+        | string replace --all '"' '\\"' \
+        | string replace --regex '^N_ (.*)$' 'N_ "$1"' \
+        >$tmpdir/implicit/$f
 end
 
 xgettext -j -k -kN_ -LShell --from-code=UTF-8 -cDescription --no-wrap -o messages.pot $tmpdir/{ex,im}plicit/share/*/*.fish
