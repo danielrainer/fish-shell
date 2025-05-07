@@ -466,7 +466,7 @@ fn throwing_main() -> i32 {
     if opts.is_interactive_session && opts.no_exec {
         FLOG!(
             warning,
-            wgettext!("Can not use the no-execute mode when running an interactive session")
+            wgettext!("Can not use the no-execute mode when running an interactive session.")
         );
         opts.no_exec = false;
     }
