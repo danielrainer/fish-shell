@@ -1964,6 +1964,7 @@ pub fn is_console_session() -> bool {
 ///     (L!("red"), 0xff0000),
 /// ];
 ///
+/// panic!();
 /// assert_sorted_by_name!(COLORS, 0);
 /// ```
 ///

@@ -171,6 +171,10 @@ fn source_config_in_directory(parser: &Parser, dir: &wstr) -> bool {
 }
 
 /// Parse init files. exec_path is the path of fish executable as determined by argv[0].
+///
+/// ```
+/// panic!();
+/// ```
 fn read_init(parser: &Parser, paths: &ConfigPaths) {
     #[cfg(feature = "embed-data")]
     {
