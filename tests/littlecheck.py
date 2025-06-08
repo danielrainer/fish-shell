@@ -380,7 +380,12 @@ def perform_substitution(input_str, subs):
     return re.sub(r"%(%|[a-zA-Z0-9_-]+)", subber, input_str)
 
 
-async def runproc(cmd):
+def runproc(cmd):
+    """Wrapper around subprocess.Popen to save typing"""
+    return asyncio.run(runproc_async(cmd))
+
+
+async def runproc_async(cmd):
     """Wrapper around subprocess.Popen to save typing"""
     PIPE = asyncio.subprocess.PIPE
     return await asyncio.create_subprocess_shell(
@@ -467,7 +472,11 @@ class TestRun(object):
             # Success!
             return None
 
-    async def run(self):
+    def run(self):
+        """Run the command. Return a TestFailure, or None."""
+        return asyncio.run(self.run_async())
+
+    async def run_async(self):
         """Run the command. Return a TestFailure, or None."""
 
         def split_by_newlines(s):
@@ -481,7 +490,7 @@ class TestRun(object):
 
         if self.config.verbose:
             print(self.subbed_command)
-        proc = await runproc(self.subbed_command)
+        proc = await runproc_async(self.subbed_command)
         stdout, stderr = await proc.communicate()
         # HACK: This is quite cheesy: POSIX specifies that sh should return 127 for a missing command.
         # It's also possible that it'll be returned in other situations,
@@ -660,7 +669,14 @@ class Checker(object):
         ]
 
 
-async def check_file(input_file, name, subs, config, failure_handler):
+def check_file(input_file, name, subs, config, failure_handler):
+    """Check a single file. Return a True on success, False on error."""
+    return asyncio.run(
+        check_file_async(input_file, name, subs, config, failure_handler)
+    )
+
+
+async def check_file_async(input_file, name, subs, config, failure_handler):
     """Check a single file. Return a True on success, False on error."""
     success = True
     lines = Line.readfile(input_file, name)
@@ -669,7 +685,7 @@ async def check_file(input_file, name, subs, config, failure_handler):
     # Run all the REQUIRES lines first,
     # if any of them fail it's a SKIP
     for reqcmd in checker.requirecmds:
-        proc = await runproc(perform_substitution(reqcmd.args, subs))
+        proc = await runproc_async(perform_substitution(reqcmd.args, subs))
         await proc.communicate()
         if proc.returncode > 0:
             return SKIP
@@ -679,16 +695,20 @@ async def check_file(input_file, name, subs, config, failure_handler):
 
     # Only then run the RUN lines.
     for runcmd in checker.runcmds:
-        failure = await TestRun(name, runcmd, checker, subs, config).run()
+        failure = await TestRun(name, runcmd, checker, subs, config).run_async()
         if failure:
             failure_handler(failure)
             success = False
     return success
 
 
-async def check_path(path, subs, config, failure_handler):
+def check_path(path, subs, config, failure_handler):
+    return asyncio.run(check_path_async(path, subs, config, failure_handler))
+
+
+async def check_path_async(path, subs, config, failure_handler):
     with io.open(path, encoding="utf-8") as fd:
-        return await check_file(fd, path, subs, config, failure_handler)
+        return await check_file_async(fd, path, subs, config, failure_handler)
 
 
 def parse_subs(subs):

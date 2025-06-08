@@ -238,7 +238,7 @@ async def run_test(
         )
 
         # littlecheck
-        ret = await littlecheck.check_path(
+        ret = await littlecheck.check_path_async(
             test_file_path, subs, lconfig, lambda x: print(x.message())
         )
         endtime = datetime.now()
