@@ -91,7 +91,7 @@ def compile_test_helper(
     if cachedir:
         thp = Path(cachedir) / "fish_test_helper"
         if not os.path.exists(thp):
-            subprocess.run(["cc", source_path, "-o", thp])
+            subprocess.run(["cc", source_path, "-o", thp], check=True)
         shutil.copy(thp, binary_path)
     else:
         subprocess.run(
@@ -100,7 +100,8 @@ def compile_test_helper(
                 source_path,
                 "-o",
                 binary_path,
-            ]
+            ],
+            check=True,
         )
 
 
