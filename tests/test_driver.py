@@ -4,7 +4,6 @@ import asyncio
 from dataclasses import dataclass
 from datetime import datetime
 import os
-import pathlib
 from pathlib import Path
 import shutil
 import subprocess
@@ -27,49 +26,28 @@ BLUE = "\033[34m"
 RED = "\033[31m"
 
 
-def makeenv(script_path, home, test_helper_path):
-    xdg_config = home + "/xdg_config_home"
-    func_dir = xdg_config + "/fish/functions"
+def makeenv(script_path: Path, home: Path, test_helper_path: Path):
+    xdg_config = home / "xdg_config_home"
+    func_dir = xdg_config / "fish" / "functions"
     os.makedirs(func_dir)
-    os.makedirs(xdg_config + "/fish/conf.d/")
+    os.makedirs(xdg_config / "fish" / "conf.d")
     for func in (script_path / "test_functions").glob("*.fish"):
-        shutil.copy(func, func_dir + "/" + func.parts[-1])
+        shutil.copy(func, func_dir / func.parts[-1])
     shutil.copy(
-        script_path / "interactive.config", xdg_config + "/fish/conf.d/interactive.fish"
+        script_path / "interactive.config",
+        xdg_config / "fish" / "conf.d" / "interactive.fish",
     )
 
-    xdg_data = home + "/xdg_data_home"
+    xdg_data = home / "xdg_data_home"
     os.makedirs(xdg_data)
-    xdg_runtime = home + "/xdg_runtime_home"
+    xdg_runtime = home / "xdg_runtime_home"
     os.makedirs(xdg_runtime)
-    xdg_cache = home + "/xdg_cache_home"
+    xdg_cache = home / "xdg_cache_home"
     os.makedirs(xdg_cache)
-    tmp = home + "/temp"
+    tmp = home / "temp"
     os.makedirs(tmp)
 
-    # Compile fish_test_helper if necessary.
-    # If we're run multiple times, allow keeping this around to save time.
-    if test_helper_path:
-        thp = Path(test_helper_path)
-        if not os.path.exists(thp / "fish_test_helper"):
-            subprocess.run(
-                [
-                    "cc",
-                    script_path / "fish_test_helper.c",
-                    "-o",
-                    thp / "fish_test_helper",
-                ]
-            )
-        shutil.copy(thp / "fish_test_helper", home + "/fish_test_helper")
-    else:
-        subprocess.run(
-            [
-                "cc",
-                script_path / "fish_test_helper.c",
-                "-o",
-                home + "/fish_test_helper",
-            ]
-        )
+    shutil.copy(test_helper_path, home / "fish_test_helper")
 
     # unset LANG, TERM, ...
     for var in [
@@ -90,19 +68,40 @@ def makeenv(script_path, home, test_helper_path):
 
     os.environ.update(
         {
-            "HOME": home,
-            "TMPDIR": tmp,
+            "HOME": str(home),
+            "TMPDIR": str(tmp),
             "FISH_FAST_FAIL": "1",
             "FISH_UNIT_TESTS_RUNNING": "1",
-            "XDG_CONFIG_HOME": xdg_config,
-            "XDG_DATA_HOME": xdg_data,
-            "XDG_RUNTIME_DIR": xdg_runtime,
-            "XDG_CACHE_HOME": xdg_cache,
-            "fish_test_helper": home + "/fish_test_helper",
+            "XDG_CONFIG_HOME": str(xdg_config),
+            "XDG_DATA_HOME": str(xdg_data),
+            "XDG_RUNTIME_DIR": str(xdg_runtime),
+            "XDG_CACHE_HOME": str(xdg_cache),
+            "fish_test_helper": str(home / "fish_test_helper"),
             "LANG": "C",
             "LC_CTYPE": "en_US.UTF-8",
         }
     )
+
+
+def compile_test_helper(
+    cachedir: Optional[str], source_path: Path, binary_path: Path
+) -> None:
+    # Compile fish_test_helper if necessary.
+    # If we're run multiple times, allow keeping this around to save time.
+    if cachedir:
+        thp = Path(cachedir) / "fish_test_helper"
+        if not os.path.exists(thp):
+            subprocess.run(["cc", source_path, "-o", thp])
+        shutil.copy(thp, binary_path)
+    else:
+        subprocess.run(
+            [
+                "cc",
+                source_path,
+                "-o",
+                binary_path,
+            ]
+        )
 
 
 async def main():
@@ -176,10 +175,14 @@ async def main():
             f"{arg.ljust(longest_test_name_length)}  {color}{result}{RESET}  {duration_str}{suffix_str}"
         )
 
-    tmp_root = tempfile.mkdtemp(prefix="fishtest-root-")
+    tmp_root = Path(tempfile.mkdtemp(prefix="fishtest-root-"))
+
+    compile_test_helper(
+        args.cachedir, script_path / "fish_test_helper.c", tmp_root / "fish_test_helper"
+    )
 
     tasks = [
-        run_test(tmp_root, f, arg, script_path, args, def_subs, lconfig, fishdir)
+        run_test(tmp_root, f, arg, script_path, def_subs, lconfig, fishdir)
         for f, arg in files
     ]
 
@@ -202,7 +205,7 @@ async def main():
         print(f"{passcount} / {passcount + failcount} passed ({skipcount} skipped)")
     if failcount:
         failstr = "\n    ".join(failed)
-        print(f"{RED}Failed tests{RESET}: \n    {failstr}")
+        print(f"{RED}Failed tests{RESET}:\n    {failstr}")
     if passcount == 0 and failcount == 0 and skipcount:
         return 125
     return 1 if failcount else 0
@@ -230,22 +233,30 @@ TestResult = TestSkip | TestFail | TestPass
 
 
 async def run_test(
-    tmp_root, path, arg, script_path, args, def_subs, lconfig, fishdir
+    tmp_root: Path,
+    test_file_path: str,
+    arg,
+    script_path: Path,
+    def_subs,
+    lconfig,
+    fishdir,
 ) -> TestResult:
-    if not path.endswith(".fish") and not path.endswith(".py"):
+    if not test_file_path.endswith(".fish") and not test_file_path.endswith(".py"):
         return TestFail(arg, None, f"Not a valid test file: {arg}")
 
     starttime = datetime.now()
-    home = tempfile.mkdtemp(prefix="fishtest-", dir=tmp_root)
-    makeenv(script_path, home, args.cachedir)
+    home = Path(tempfile.mkdtemp(prefix="fishtest-", dir=tmp_root))
+    makeenv(script_path, home, tmp_root / "fish_test_helper")
     os.chdir(home)
-    if path.endswith(".fish"):
+    if test_file_path.endswith(".fish"):
         subs = def_subs.copy()
-        subs.update({"s": path, "fish_test_helper": home + "/fish_test_helper"})
+        subs.update(
+            {"s": test_file_path, "fish_test_helper": str(home / "fish_test_helper")}
+        )
 
         # littlecheck
         ret = await littlecheck.check_path(
-            path, subs, lconfig, lambda x: print(x.message())
+            test_file_path, subs, lconfig, lambda x: print(x.message())
         )
         endtime = datetime.now()
         duration_ms = round((endtime - starttime).total_seconds() * 1000)
@@ -255,7 +266,7 @@ async def run_test(
             return TestPass(arg, duration_ms)
         else:
             return TestFail(arg, duration_ms, f"Tmpdir is {home}")
-    elif path.endswith(".py"):
+    elif test_file_path.endswith(".py"):
         # environ for py files has a few changes.
         pyenviron = os.environ.copy()
         pyenviron.update(
@@ -273,7 +284,7 @@ async def run_test(
         PIPE = asyncio.subprocess.PIPE
         proc = await asyncio.subprocess.create_subprocess_exec(
             "python3",
-            path,
+            test_file_path,
             stdout=PIPE,
             stderr=PIPE,
             env=pyenviron,
