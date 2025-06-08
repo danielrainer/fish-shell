@@ -175,31 +175,32 @@ async def main():
             f"{arg.ljust(longest_test_name_length)}  {color}{result}{RESET}  {duration_str}{suffix_str}"
         )
 
-    tmp_root = Path(tempfile.mkdtemp(prefix="fishtest-root-"))
+    with tempfile.TemporaryDirectory(prefix="fishtest-root-") as tmp_root:
+        tmp_root = Path(tmp_root)
 
-    compile_test_helper(
-        args.cachedir, script_path / "fish_test_helper.c", tmp_root / "fish_test_helper"
-    )
+        compile_test_helper(
+            args.cachedir,
+            script_path / "fish_test_helper.c",
+            tmp_root / "fish_test_helper",
+        )
 
-    tasks = [
-        run_test(tmp_root, f, arg, script_path, def_subs, lconfig, fishdir)
-        for f, arg in files
-    ]
+        tasks = [
+            run_test(tmp_root, f, arg, script_path, def_subs, lconfig, fishdir)
+            for f, arg in files
+        ]
 
-    for task in asyncio.as_completed(tasks):
-        match await task:
-            case TestSkip(arg):
-                skipcount += 1
-                print_result(arg, "SKIPPED", BLUE)
-            case TestFail(arg, duration_ms, error_message):
-                failcount += 1
-                failed += [arg]
-                print_result(arg, "FAILED", RED, duration_ms, error_message)
-            case TestPass(arg, duration_ms):
-                passcount += 1
-                print_result(arg, "PASSED", GREEN, duration_ms)
-
-    shutil.rmtree(tmp_root)
+        for task in asyncio.as_completed(tasks):
+            match await task:
+                case TestSkip(arg):
+                    skipcount += 1
+                    print_result(arg, "SKIPPED", BLUE)
+                case TestFail(arg, duration_ms, error_message):
+                    failcount += 1
+                    failed += [arg]
+                    print_result(arg, "FAILED", RED, duration_ms, error_message)
+                case TestPass(arg, duration_ms):
+                    passcount += 1
+                    print_result(arg, "PASSED", GREEN, duration_ms)
 
     if passcount + failcount + skipcount > 1:
         print(f"{passcount} / {passcount + failcount} passed ({skipcount} skipped)")
