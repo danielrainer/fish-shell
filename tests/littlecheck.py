@@ -385,22 +385,23 @@ def runproc(cmd):
     return asyncio.run(runproc_async(cmd))
 
 
-async def runproc_async(cmd):
+async def runproc_async(cmd, env=None):
     """Wrapper around subprocess.Popen to save typing"""
     PIPE = asyncio.subprocess.PIPE
     return await asyncio.create_subprocess_shell(
-        cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE
+        cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE, env=env
     )
 
 
 class TestRun(object):
-    def __init__(self, name, runcmd, checker, subs, config):
+    def __init__(self, name, runcmd, checker, subs, config, env=None):
         self.name = name
         self.runcmd = runcmd
         self.subbed_command = perform_substitution(runcmd.args, subs)
         self.checker = checker
         self.subs = subs
         self.config = config
+        self.env = env
 
     def check(self, lines, checks):
         # Reverse our lines and checks so we can pop off the end.
@@ -490,7 +491,7 @@ class TestRun(object):
 
         if self.config.verbose:
             print(self.subbed_command)
-        proc = await runproc_async(self.subbed_command)
+        proc = await runproc_async(self.subbed_command, env=self.env)
         stdout, stderr = await proc.communicate()
         # HACK: This is quite cheesy: POSIX specifies that sh should return 127 for a missing command.
         # It's also possible that it'll be returned in other situations,
@@ -676,7 +677,7 @@ def check_file(input_file, name, subs, config, failure_handler):
     )
 
 
-async def check_file_async(input_file, name, subs, config, failure_handler):
+async def check_file_async(input_file, name, subs, config, failure_handler, env=None):
     """Check a single file. Return a True on success, False on error."""
     success = True
     lines = Line.readfile(input_file, name)
@@ -695,7 +696,9 @@ async def check_file_async(input_file, name, subs, config, failure_handler):
 
     # Only then run the RUN lines.
     for runcmd in checker.runcmds:
-        failure = await TestRun(name, runcmd, checker, subs, config).run_async()
+        failure = await TestRun(
+            name, runcmd, checker, subs, config, env=env
+        ).run_async()
         if failure:
             failure_handler(failure)
             success = False
@@ -706,9 +709,9 @@ def check_path(path, subs, config, failure_handler):
     return asyncio.run(check_path_async(path, subs, config, failure_handler))
 
 
-async def check_path_async(path, subs, config, failure_handler):
+async def check_path_async(path, subs, config, failure_handler, env=None):
     with io.open(path, encoding="utf-8") as fd:
-        return await check_file_async(fd, path, subs, config, failure_handler)
+        return await check_file_async(fd, path, subs, config, failure_handler, env=env)
 
 
 def parse_subs(subs):

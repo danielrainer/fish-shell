@@ -26,7 +26,7 @@ BLUE = "\033[34m"
 RED = "\033[31m"
 
 
-def makeenv(script_path: Path, home: Path, test_helper_path: Path):
+def makeenv(script_path: Path, home: Path, test_helper_path: Path) -> dict[str, str]:
     xdg_config = home / "xdg_config_home"
     func_dir = xdg_config / "fish" / "functions"
     os.makedirs(func_dir)
@@ -49,38 +49,20 @@ def makeenv(script_path: Path, home: Path, test_helper_path: Path):
 
     shutil.copy(test_helper_path, home / "fish_test_helper")
 
-    # unset LANG, TERM, ...
-    for var in [
-        "XDG_DATA_DIRS",
-        "LANGUAGE",
-        "COLORTERM",
-        "KONSOLE_VERSION",
-        "TERM",  # Erase this since we still respect TERM=dumb etc.
-        "TERM_PROGRAM",
-        "TERM_PROGRAM_VERSION",
-        "VTE_VERSION",
-    ]:
-        if var in os.environ:
-            del os.environ[var]
-    langvars = [key for key in os.environ.keys() if key.startswith("LC_")]
-    for key in langvars:
-        del os.environ[key]
-
-    os.environ.update(
-        {
-            "HOME": str(home),
-            "TMPDIR": str(tmp),
-            "FISH_FAST_FAIL": "1",
-            "FISH_UNIT_TESTS_RUNNING": "1",
-            "XDG_CONFIG_HOME": str(xdg_config),
-            "XDG_DATA_HOME": str(xdg_data),
-            "XDG_RUNTIME_DIR": str(xdg_runtime),
-            "XDG_CACHE_HOME": str(xdg_cache),
-            "fish_test_helper": str(home / "fish_test_helper"),
-            "LANG": "C",
-            "LC_CTYPE": "en_US.UTF-8",
-        }
-    )
+    return {
+        "PATH": os.environ["PATH"],
+        "HOME": str(home),
+        "TMPDIR": str(tmp),
+        "FISH_FAST_FAIL": "1",
+        "FISH_UNIT_TESTS_RUNNING": "1",
+        "XDG_CONFIG_HOME": str(xdg_config),
+        "XDG_DATA_HOME": str(xdg_data),
+        "XDG_RUNTIME_DIR": str(xdg_runtime),
+        "XDG_CACHE_HOME": str(xdg_cache),
+        "fish_test_helper": str(home / "fish_test_helper"),
+        "LANG": "C",
+        "LC_CTYPE": "en_US.UTF-8",
+    }
 
 
 def compile_test_helper(source_path: Path, binary_path: Path) -> None:
@@ -229,7 +211,7 @@ async def run_test(
 
     starttime = datetime.now()
     home = Path(tempfile.mkdtemp(prefix="fishtest-", dir=tmp_root))
-    makeenv(script_path, home, tmp_root / "fish_test_helper")
+    test_env = makeenv(script_path, home, tmp_root / "fish_test_helper")
     os.chdir(home)
     if test_file_path.endswith(".fish"):
         subs = def_subs.copy()
@@ -239,7 +221,11 @@ async def run_test(
 
         # littlecheck
         ret = await littlecheck.check_path_async(
-            test_file_path, subs, lconfig, lambda x: print(x.message())
+            test_file_path,
+            subs,
+            lconfig,
+            lambda x: print(x.message()),
+            env=test_env,
         )
         endtime = datetime.now()
         duration_ms = round((endtime - starttime).total_seconds() * 1000)
@@ -250,9 +236,7 @@ async def run_test(
         else:
             return TestFail(arg, duration_ms, f"Tmpdir is {home}")
     elif test_file_path.endswith(".py"):
-        # environ for py files has a few changes.
-        pyenviron = os.environ.copy()
-        pyenviron.update(
+        test_env.update(
             {
                 "PYTHONPATH": str(script_path),
                 "fish": str(fishdir / "fish"),
@@ -270,7 +254,7 @@ async def run_test(
             test_file_path,
             stdout=PIPE,
             stderr=PIPE,
-            env=pyenviron,
+            env=test_env,
         )
         stdout, stderr = await proc.communicate()
         endtime = datetime.now()
