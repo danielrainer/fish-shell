@@ -83,26 +83,16 @@ def makeenv(script_path: Path, home: Path, test_helper_path: Path):
     )
 
 
-def compile_test_helper(
-    cachedir: Optional[str], source_path: Path, binary_path: Path
-) -> None:
-    # Compile fish_test_helper if necessary.
-    # If we're run multiple times, allow keeping this around to save time.
-    if cachedir:
-        thp = Path(cachedir) / "fish_test_helper"
-        if not os.path.exists(thp):
-            subprocess.run(["cc", source_path, "-o", thp], check=True)
-        shutil.copy(thp, binary_path)
-    else:
-        subprocess.run(
-            [
-                "cc",
-                source_path,
-                "-o",
-                binary_path,
-            ],
-            check=True,
-        )
+def compile_test_helper(source_path: Path, binary_path: Path) -> None:
+    subprocess.run(
+        [
+            "cc",
+            source_path,
+            "-o",
+            binary_path,
+        ],
+        check=True,
+    )
 
 
 async def main():
@@ -114,14 +104,6 @@ async def main():
 
     argparser = argparse.ArgumentParser(
         description="test_driver: Run fish's test suite"
-    )
-    argparser.add_argument(
-        "-f",
-        "--cachedir",
-        type=str,
-        help="Path to keep outputs to speed up the next run",
-        action="store",
-        default=None,
     )
     argparser.add_argument("fish", nargs=1, help="Fish to test")
     argparser.add_argument("file", nargs="*", help="Tests to run")
@@ -180,7 +162,6 @@ async def main():
         tmp_root = Path(tmp_root)
 
         compile_test_helper(
-            args.cachedir,
             script_path / "fish_test_helper.c",
             tmp_root / "fish_test_helper",
         )
