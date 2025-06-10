@@ -686,7 +686,7 @@ async def check_file_async(input_file, name, subs, config, failure_handler, env=
     # Run all the REQUIRES lines first,
     # if any of them fail it's a SKIP
     for reqcmd in checker.requirecmds:
-        proc = await runproc_async(perform_substitution(reqcmd.args, subs), env=env)
+        proc = await runproc_async(perform_substitution(reqcmd.args, subs))
         await proc.communicate()
         if proc.returncode > 0:
             return SKIP
