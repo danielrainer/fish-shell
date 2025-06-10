@@ -26,7 +26,7 @@ BLUE = "\033[34m"
 RED = "\033[31m"
 
 
-def makeenv(script_path: Path, home: Path, test_helper_path: Path) -> dict[str, str]:
+def makeenv(script_path: Path, home: Path) -> dict[str, str]:
     xdg_config = home / "xdg_config_home"
     func_dir = xdg_config / "fish" / "functions"
     os.makedirs(func_dir)
@@ -47,7 +47,7 @@ def makeenv(script_path: Path, home: Path, test_helper_path: Path) -> dict[str, 
     tmp = home / "temp"
     os.makedirs(tmp)
 
-    shutil.copy(test_helper_path, home / "fish_test_helper")
+    shutil.copy(home.parent / "fish_test_helper", home / "fish_test_helper")
 
     return {
         "PATH": os.environ["PATH"],
@@ -211,7 +211,7 @@ async def run_test(
 
     starttime = datetime.now()
     home = Path(tempfile.mkdtemp(prefix="fishtest-", dir=tmp_root))
-    test_env = makeenv(script_path, home, tmp_root / "fish_test_helper")
+    test_env = makeenv(script_path, home)
     os.chdir(home)
     if test_file_path.endswith(".fish"):
         subs = def_subs.copy()
