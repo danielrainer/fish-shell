@@ -47,8 +47,6 @@ def makeenv(script_path: Path, home: Path) -> dict[str, str]:
     tmp = home / "temp"
     os.makedirs(tmp)
 
-    shutil.copy(home.parent / "fish_test_helper", home / "fish_test_helper")
-
     return {
         "PATH": os.environ["PATH"],
         "HOME": str(home),
@@ -59,7 +57,7 @@ def makeenv(script_path: Path, home: Path) -> dict[str, str]:
         "XDG_DATA_HOME": str(xdg_data),
         "XDG_RUNTIME_DIR": str(xdg_runtime),
         "XDG_CACHE_HOME": str(xdg_cache),
-        "fish_test_helper": str(home / "fish_test_helper"),
+        "fish_test_helper": str(home.parent / "fish_test_helper"),
         "LANG": "C",
         "LC_CTYPE": "en_US.UTF-8",
     }
@@ -216,7 +214,10 @@ async def run_test(
     if test_file_path.endswith(".fish"):
         subs = def_subs.copy()
         subs.update(
-            {"s": test_file_path, "fish_test_helper": str(home / "fish_test_helper")}
+            {
+                "s": test_file_path,
+                "fish_test_helper": str(tmp_root / "fish_test_helper"),
+            }
         )
 
         # littlecheck
