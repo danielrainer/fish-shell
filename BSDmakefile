@@ -47,12 +47,12 @@ clean:
 	rm -rf build
 
 .PHONY: test
-test: build/fish
-	$(CMAKE) --build build --target fish_run_tests
+test:
+	build_tools/check.sh
 
 .PHONY: fish_run_tests
-fish_run_tests: build/fish
-	$(CMAKE) --build build --target fish_run_tests
+fish_run_tests:
+	build_tools/check.sh
 
 .PHONY: run
 run: build/fish
