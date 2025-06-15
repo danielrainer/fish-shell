@@ -326,7 +326,7 @@ fn get_version(src_dir: &Path) -> String {
 
     let path = src_dir.join("version");
     if let Ok(strver) = read_to_string(path) {
-        return strver.to_string();
+        return strver;
     }
 
     let args = &["describe", "--always", "--dirty=-dirty"];
@@ -452,10 +452,7 @@ fn build_man(build_dir: &Path) {
                 );
             }
             Ok(out) => {
-                if out.success() {
-                    // Success!
-                    return;
-                } else {
+                if !out.success() {
                     panic!("sphinx-build failed to build the man pages.");
                 }
             }
