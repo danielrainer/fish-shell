@@ -10,8 +10,8 @@ cleanup () {
 
 trap cleanup EXIT INT TERM HUP
 
-RUSTFLAGS='-D warnings'; export RUSTFLAGS
-RUSTDOCFLAGS='-D warnings'; export RUSTDOCFLAGS
+RUSTFLAGS="-D warnings $RUSTFLAGS"; export RUSTFLAGS
+RUSTDOCFLAGS="-D warnings $RUSTDOCFLAGS"; export RUSTDOCFLAGS
 
 repo_root="$(dirname "$0")/.."
 build_dir="$repo_root/target/debug"

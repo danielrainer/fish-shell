@@ -19,19 +19,13 @@ jobs:
     - uses: dtolnay/rust-toolchain@1.70
     - name: Install deps
       run: |
-        sudo apt install gettext libpcre2-dev python3-pexpect python3-sphinx tmux
+        sudo apt install black gettext libpcre2-dev python3-pexpect python3-sphinx tmux
         # Generate a locale that uses a comma as decimal separator.
         sudo locale-gen fr_FR.UTF-8
-    - name: cmake
+        rustup component add rustfmt clippy
+    - name: check
       run: |
-        mkdir build && cd build
-        cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    - name: make
-      run: |
-        make -C build VERBOSE=1
-    - name: make fish_run_tests
-      run: |
-        make -C build VERBOSE=1 fish_run_tests
+        build_tools/check.sh
     - name: translation updates
       run: |
         # Generate PO files. This should not result it a change in the repo if all translations are
@@ -54,18 +48,24 @@ jobs:
       run: |
         sudo apt update
         sudo apt install gettext python3-pexpect g++-multilib tmux
-    - name: cmake
+    - name: check
       env:
-          CFLAGS: "-m32"
+        PCRE2_SYS_STATIC: 1
+        CARGO_BUILD_TARGET: i586-unknown-linux-gnu
       run: |
-        mkdir build && cd build
-        cmake -DFISH_USE_SYSTEM_PCRE2=OFF -DRust_CARGO_TARGET=i586-unknown-linux-gnu ..
-    - name: make
-      run: |
-        make -C build VERBOSE=1
-    - name: make fish_run_tests
-      run: |
-        make -C build VERBOSE=1 fish_run_tests
+        build_tools/check.sh
+    # - name: cmake
+      # env:
+          # CFLAGS: "-m32"
+      # run: |
+        # mkdir build && cd build
+        # cmake -DFISH_USE_SYSTEM_PCRE2=OFF -DRust_CARGO_TARGET=i586-unknown-linux-gnu ..
+    # - name: make
+      # run: |
+        # make -C build VERBOSE=1
+    # - name: make fish_run_tests
+      # run: |
+        # make -C build VERBOSE=1 fish_run_tests
 
   ubuntu-asan:
 
@@ -91,19 +91,9 @@ jobs:
       run: |
         sudo apt install gettext libpcre2-dev python3-pexpect tmux
         sudo apt install llvm # for llvm-symbolizer
-    - name: cmake
+    - name: check
       env:
           CC: clang
-      run: |
-        mkdir build && cd build
-        # Rust's ASAN requires the build system to explicitly pass a --target triple. We read that
-        # value from CMake variable Rust_CARGO_TARGET.
-        cmake .. -DASAN=1 -DRust_CARGO_TARGET=x86_64-unknown-linux-gnu -DCMAKE_BUILD_TYPE=Debug
-    - name: make
-      run: |
-        make -C build VERBOSE=1
-    - name: make fish_run_tests
-      env:
           FISH_CI_SAN: 1
           ASAN_OPTIONS: check_initialization_order=1:detect_stack_use_after_return=1:detect_leaks=1:fast_unwind_on_malloc=0
           # use_tls=0 is a workaround for LSAN crashing with "Tracer caught signal 11" (SIGSEGV),
@@ -112,11 +102,38 @@ jobs:
           # https://github.com/google/sanitizers/issues/1409 to track this issue.
           # UPDATE: this can cause spurious leak reports for __cxa_thread_atexit_impl() under glibc.
           LSAN_OPTIONS: verbosity=0:log_threads=0:use_tls=1:print_suppressions=0
+          CARGO_BUILD_TARGET: x86_64-unknown-linux-gnu
       run: |
         set -x
         export ASAN_SYMBOLIZER_PATH=$(command -v /usr/bin/llvm-symbolizer* | sort -n | head -1)
         export LSAN_OPTIONS="$LSAN_OPTIONS:suppressions=$PWD/build_tools/lsan_suppressions.txt"
-        make -C build VERBOSE=1 fish_run_tests
+        build_tools/check.sh
+    # - name: cmake
+      # env:
+          # CC: clang
+      # run: |
+        # mkdir build && cd build
+        # # Rust's ASAN requires the build system to explicitly pass a --target triple. We read that
+        # # value from CMake variable Rust_CARGO_TARGET.
+        # cmake .. -DASAN=1 -DRust_CARGO_TARGET=x86_64-unknown-linux-gnu -DCMAKE_BUILD_TYPE=Debug
+    # - name: make
+      # run: |
+        # make -C build VERBOSE=1
+    # - name: make fish_run_tests
+      # env:
+          # FISH_CI_SAN: 1
+          # ASAN_OPTIONS: check_initialization_order=1:detect_stack_use_after_return=1:detect_leaks=1:fast_unwind_on_malloc=0
+          # # use_tls=0 is a workaround for LSAN crashing with "Tracer caught signal 11" (SIGSEGV),
+          # # which seems to be an issue with TLS support in newer glibc versions under virtualized
+          # # environments. Follow https://github.com/google/sanitizers/issues/1342 and
+          # # https://github.com/google/sanitizers/issues/1409 to track this issue.
+          # # UPDATE: this can cause spurious leak reports for __cxa_thread_atexit_impl() under glibc.
+          # LSAN_OPTIONS: verbosity=0:log_threads=0:use_tls=1:print_suppressions=0
+      # run: |
+        # set -x
+        # export ASAN_SYMBOLIZER_PATH=$(command -v /usr/bin/llvm-symbolizer* | sort -n | head -1)
+        # export LSAN_OPTIONS="$LSAN_OPTIONS:suppressions=$PWD/build_tools/lsan_suppressions.txt"
+        # make -C build VERBOSE=1 fish_run_tests
 
   # Our clang++ tsan builds are not recognizing safe rust patterns (such as the fact that Drop
   # cannot be called while a thread is using the object in question). Rust has its own way of
@@ -163,13 +180,16 @@ jobs:
         # this is CI so we don't actually care.
         sudo pip3 install --break-system-packages pexpect
         brew install tmux
-    - name: cmake
+    - name: check
       run: |
-        mkdir build && cd build
-        cmake -DWITH_GETTEXT=NO -DCMAKE_BUILD_TYPE=Debug ..
-    - name: make
-      run: |
-        make -C build VERBOSE=1
-    - name: make fish_run_tests
-      run: |
-        make -C build VERBOSE=1 fish_run_tests
+        build_tools/check.sh
+    # - name: cmake
+      # run: |
+        # mkdir build && cd build
+        # cmake -DWITH_GETTEXT=NO -DCMAKE_BUILD_TYPE=Debug ..
+    # - name: make
+      # run: |
+        # make -C build VERBOSE=1
+    # - name: make fish_run_tests
+      # run: |
+        # make -C build VERBOSE=1 fish_run_tests
