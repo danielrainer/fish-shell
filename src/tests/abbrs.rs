@@ -6,6 +6,11 @@ use crate::tests::prelude::*;
 use crate::wchar::prelude::*;
 
 #[test]
+fn test_fail() {
+    panic!("This test should fail. It only exists to see if CI picks up on that.");
+}
+
+#[test]
 #[serial]
 fn test_abbreviations() {
     let _cleanup = test_init();
