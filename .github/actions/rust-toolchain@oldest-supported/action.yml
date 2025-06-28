@@ -6,9 +6,11 @@ on:
       targets:
         description: Comma-separated list of target triples to install for this toolchain
         required: false
+        type: string
       components:
         description: Comma-separated list of components to be additionally installed
         required: false
+        type: string
 
 permissions:
   contents: read
