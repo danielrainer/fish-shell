@@ -9,7 +9,7 @@ set -lx LANG de_DE.utf8
 
 # Check if translations work.
 
-$fish --not-a-real-flag
+sudo dtruss $fish --not-a-real-flag
 # CHECKERR: fish: --not-a-real-flag: unbekannte Option
 
 set --show custom_gettext_var
