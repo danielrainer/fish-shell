@@ -5,7 +5,8 @@
 
 set -l custom_gettext_var asdf
 
-set -lx LANG de_DE.utf8
+# set -lx LANG de_DE.utf8
+set -lx LC_MESSAGES de_DE.utf8
 
 # Check if translations work.
 
@@ -16,6 +17,7 @@ set --show custom_gettext_var
 # CHECK: $custom_gettext_var: Gesetzt in local Gültigkeit als nicht exportiert, mit 1 Elementen
 # CHECK: $custom_gettext_var[1]: |asdf|
 
+set --erase LC_MESSAGES
 set -lx LANG en_US.utf8
 
 
