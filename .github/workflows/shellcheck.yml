@@ -13,6 +13,16 @@ jobs:
     - name: Install deps
       run: |
         sudo apt install ripgrep
+    - name: debug
+      run: |
+        set -x
+        pwd
+        cat build_tools/shellcheck/included.txt
+        [ -f build_tools/shellcheck/excluded.txt ] && echo 'excluded file exists'
+        ls
+        rg --version
+        rg check_for_file_updates
+        rg --no-require-git --no-ignore-exclude --stop-on-nonmatch --files-with-matches '^#!.*[^i]sh'
     - name: check for updates
       run: |
         build_tools/shellcheck/check_for_file_updates.sh
