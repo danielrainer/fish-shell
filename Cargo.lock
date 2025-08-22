@@ -1046,6 +1046,7 @@ name = "xtask"
 version = "0.0.0"
 dependencies = [
  "fish-build-helper",
+ "fish-tempfile",
 ]
 
 [[package]]

@@ -7,3 +7,4 @@ repository.workspace = true
 
 [dependencies]
 fish-build-helper.workspace = true
+fish-tempfile.workspace = true
