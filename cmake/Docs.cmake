@@ -6,7 +6,6 @@ find_program(SPHINX_EXECUTABLE NAMES sphinx-build
 
 include(FeatureSummary)
 
-set(SPHINX_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/doc_src")
 set(SPHINX_ROOT_DIR "${CMAKE_CURRENT_BINARY_DIR}/user_doc")
 set(SPHINX_HTML_DIR "${SPHINX_ROOT_DIR}/html")
 set(SPHINX_MANPAGE_DIR "${SPHINX_ROOT_DIR}/man")
@@ -17,16 +16,14 @@ add_custom_target(sphinx-docs
 )
 
 add_custom_target(sphinx-manpages
-    env FISH_BUILD_VERSION_FILE=${CMAKE_CURRENT_BINARY_DIR}/${FBVF}
-        ${SPHINX_EXECUTABLE}
-        -j auto
-        -q -b man
-        -c "${SPHINX_SRC_DIR}"
-        -d "${SPHINX_ROOT_DIR}/.doctrees-man"
-        "${SPHINX_SRC_DIR}"
-        "${SPHINX_MANPAGE_DIR}/man1"
-    DEPENDS CHECK-FISH-BUILD-VERSION-FILE
-    COMMENT "Building man pages with Sphinx")
+    COMMAND env CARGO_TARGET_DIR=${CMAKE_CURRENT_BINARY_DIR}/cargo/build/
+        cargo xtask man-pages
+    COMMAND mkdir -p ${SPHINX_MANPAGE_DIR}
+    # Copy the man files to where the rest of CMake expects them.
+    # This is necessary because the xtask does not have special handling for the location expected
+    # by CMake.
+    COMMAND cp -r ${CMAKE_CURRENT_BINARY_DIR}/cargo/build/fish-man/man1 ${SPHINX_MANPAGE_DIR}
+)
 
 if(NOT DEFINED WITH_DOCS) # Don't check for legacy options if the new one is defined, to help bisecting.
     if(DEFINED BUILD_DOCS)

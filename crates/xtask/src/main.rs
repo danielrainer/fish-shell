@@ -12,6 +12,7 @@ fn main() {
     let command_args = &args[1..];
     match command.as_str() {
         "check" => run_checks(command_args),
+        "man-pages" => cargo(["build", "--package", "fish-build-man-pages"]),
         "html-docs" => build_html_docs(command_args),
         other => {
             panic!("Unknown xtask: {other}");
