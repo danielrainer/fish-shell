@@ -14,10 +14,10 @@ fn main() {
 }
 
 fn embed_localizations(cache_dir: &Path) {
-    use fish_gettext_mo_file_parser::parse_mo_file;
+    use fish_gettext_po_file_parser::parse_po_file;
     use std::{
         fs::File,
-        io::{BufWriter, Write},
+        io::{BufWriter, Read, Write},
     };
 
     let po_dir = fish_build_helper::workspace_root().join("po");
@@ -90,17 +90,11 @@ fn embed_localizations(cache_dir: &Path) {
 
                 // Generate the map file.
 
-                // Try to create new MO data and load it into `mo_data`.
-                let output = Command::new("msgfmt")
-                    .arg("--check-format")
-                    .arg("--output-file=-")
-                    .arg(&po_file_path)
-                    .output()
-                    .unwrap();
-                let mo_data = output.stdout;
-
-                // Extract map from MO data.
-                let language_localizations = parse_mo_file(&mo_data).unwrap();
+                let mut po_file = File::open(&po_file_path).unwrap();
+                let mut file_content = vec![];
+                po_file.read_to_end(&mut file_content).unwrap();
+                // Extract map from PO file.
+                let language_localizations = parse_po_file(&file_content).unwrap();
 
                 // This file will contain the localization map for the current language.
                 let mut cached_map_file = File::create(&cached_map_path).unwrap();
@@ -114,10 +108,7 @@ fn embed_localizations(cache_dir: &Path) {
                     format!("r###\"{s}\"###")
                 }
                 for (msgid, msgstr) in language_localizations {
-                    single_language_localization_map.entry(
-                        String::from_utf8(msgid.into()).unwrap(),
-                        to_raw_str(&String::from_utf8(msgstr.into()).unwrap()),
-                    );
+                    single_language_localization_map.entry(msgid, to_raw_str(&msgstr));
                 }
                 writeln!(&mut cached_map_file, "#[allow(non_upper_case_globals)]").unwrap();
                 write!(

@@ -10,7 +10,7 @@ phf.workspace = true
 
 [build-dependencies]
 fish-build-helper.workspace = true
-fish-gettext-mo-file-parser.workspace = true
+fish-gettext-po-file-parser.workspace = true
 phf_codegen.workspace = true
 rsconf.workspace = true
 

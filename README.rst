@@ -122,7 +122,6 @@ Compiling fish requires:
 -  CMake (version 3.15 or later)
 -  a C compiler (for system feature detection and the test helper binary)
 -  PCRE2 (headers and libraries) - optional, this will be downloaded if missing
--  gettext (only the msgfmt tool) - optional, for translation support
 -  an Internet connection, as other dependencies will be downloaded automatically
 
 Sphinx is also optionally required to build the documentation from a

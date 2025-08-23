@@ -36,7 +36,7 @@ For that, you'll require:
 -  Rust - when in doubt, try rustup
 -  CMake
 -  PCRE2 (headers and libraries) - optional, this will be downloaded if missing
--  gettext (only the msgfmt tool) - optional, for translation support
+-  gettext - optional, for some tests and to update/create PO files for localization.
 -  Sphinx - optional, to build the documentation
 
 Of course not everything is required always - if you just want to contribute something to the documentation you'll just need Sphinx,
@@ -301,7 +301,6 @@ This will create a new PO file containing all messages available for translation
 If the file already exists, it will be updated.
 
 After modifying a PO file, you can recompile fish, and it will integrate the modifications you made.
-This requires that the ``msgfmt`` utility is installed (comes as part of ``gettext``).
 It is important that the ``localize-messages`` cargo feature is enabled, which it is by default.
 You can explicitly enable it using::
 

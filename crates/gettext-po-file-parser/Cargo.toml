@@ -1,0 +1,9 @@
+[package]
+name = "fish-gettext-po-file-parser"
+version = "0.0.0"
+rust-version.workspace = true
+edition.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true

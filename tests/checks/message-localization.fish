@@ -1,5 +1,4 @@
 # RUN: fish=%fish %fish %s
-#REQUIRES: command -v msgfmt
 #REQUIRES: %fish -c 'status buildinfo | grep localize-messages'
 
 set -l custom_gettext_var asdf
