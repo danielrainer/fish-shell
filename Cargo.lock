@@ -114,7 +114,6 @@ dependencies = [
  "fish-build-man-pages",
  "fish-gettext-extraction",
  "fish-gettext-maps",
- "fish-mo-file-parser",
  "fish-printf",
  "libc",
  "lru",
@@ -161,14 +160,14 @@ name = "fish-gettext-maps"
 version = "0.0.0"
 dependencies = [
  "fish-build-helper",
- "fish-mo-file-parser",
+ "fish-po-file-parser",
  "phf 0.12.1",
  "phf_codegen 0.12.1",
  "rsconf",
 ]
 
 [[package]]
-name = "fish-mo-file-parser"
+name = "fish-po-file-parser"
 version = "0.0.0"
 
 [[package]]
