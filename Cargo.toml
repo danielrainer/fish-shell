@@ -16,7 +16,7 @@ fish-build-helper = { path = "crates/build-helper" }
 fish-build-man-pages = { path = "crates/build-man-pages" }
 fish-gettext-extraction = { path = "crates/gettext-extraction" }
 fish-gettext-maps = { path = "crates/gettext-maps" }
-fish-mo-file-parser = { path = "crates/mo-file-parser" }
+fish-po-file-parser = { path = "crates/po-file-parser" }
 fish-printf = { path = "crates/printf", features = ["widestring"] }
 libc = "0.2.155"
 # lru pulls in hashbrown by default, which uses a faster (though less DoS resistant) hashing algo.
@@ -102,7 +102,6 @@ serial_test.workspace = true
 [build-dependencies]
 cc.workspace = true
 fish-build-helper.workspace = true
-fish-mo-file-parser.workspace = true
 phf_codegen = { workspace = true, optional = true }
 rsconf.workspace = true
 

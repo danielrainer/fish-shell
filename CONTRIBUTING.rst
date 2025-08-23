@@ -29,7 +29,7 @@ For that, you'll require:
 -  Rust - when in doubt, try rustup
 -  CMake
 -  PCRE2 (headers and libraries) - optional, this will be downloaded if missing
--  gettext (only the msgfmt tool) - optional, for translation support
+-  gettext - optional, for some tests and to update/create PO files for localization.
 -  Sphinx - optional, to build the documentation
 
 Of course not everything is required always - if you just want to contribute something to the documentation you'll just need Sphinx,
@@ -324,7 +324,6 @@ added in the ``[features]`` section, e.g.::
 Please make sure to keep the language features sorted alphabetically.
 
 After modifying a PO file, you can recompile fish, and it will integrate the modifications you made.
-This requires that the ``msgfmt`` utility is installed (comes as part of ``gettext``).
 It is important that the cargo feature for the language of interest is enabled.
 By default, all languages are enabled.
 You can explicitly enable all languages using::
