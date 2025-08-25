@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 use std::sync::Mutex;
 
+#[cfg(feature = "localize")]
+use crate::env::EnvStack;
 #[cfg(test)]
 use crate::tests::prelude::*;
 use crate::wchar::prelude::*;
@@ -13,6 +15,8 @@ mod gettext_impl {
     use once_cell::sync::Lazy;
 
     pub(super) use fish_gettext_maps::CATALOGS;
+
+    use crate::env::{EnvStack, Environment};
 
     /// `language` must be an ISO 639 language code, optionally followed by an underscore and an ISO
     /// 3166 country/territory code.
@@ -69,7 +73,9 @@ mod gettext_impl {
     /// 4. `LANG`: like `LC_ALL`
     ///
     /// Returns the (possibly empty) preference list of languages.
-    fn get_language_preferences_from_env() -> Vec<String> {
+    fn get_language_preferences_from_env(vars: &EnvStack) -> Vec<String> {
+        use crate::wchar::L;
+
         fn normalize_locale_name(locale: &str) -> String {
             // Strips off the encoding and modifier parts.
             let mut normalized_name = String::new();
@@ -85,14 +91,29 @@ mod gettext_impl {
             normalized_name
         }
 
-        if let Ok(langs) = std::env::var("LANGUAGE") {
-            return langs.split(':').map(normalize_locale_name).collect();
+        if let Some(langs) = vars.get(L!("LANGUAGE")) {
+            let langs = langs.as_list();
+            if langs.len() == 1 {
+                // For compatibility with gettext, assume colon-separated languages.
+                return langs[0]
+                    .to_string()
+                    .split(':')
+                    .map(normalize_locale_name)
+                    .collect();
+            }
+            // Otherwise, assume one language per element.
+            return langs
+                .iter()
+                .map(|l| normalize_locale_name(&l.to_string()))
+                .collect();
         }
-        let Ok(locale) = std::env::var("LC_ALL")
-            .or_else(|_| std::env::var("LC_MESSAGES").or_else(|_| std::env::var("LANG")))
+        let Some(locale) = vars
+            .get(L!("LC_ALL"))
+            .or_else(|| vars.get(L!("LC_MESSAGES")).or_else(|| vars.get(L!("LANG"))))
         else {
             return vec![];
         };
+        let locale = locale.as_string().to_string();
         if locale.starts_with('C') {
             // Do not localize in the C locale.
             vec![]
@@ -102,9 +123,9 @@ mod gettext_impl {
     }
 
     /// Implementation of the function with the same name in super.
-    pub(super) fn update_locale_from_env() {
+    pub(super) fn update_locale_from_env(vars: &EnvStack) {
         let mut language_precedence = LANGUAGE_PRECEDENCE.lock().unwrap();
-        *language_precedence = get_language_preferences_from_env()
+        *language_precedence = get_language_preferences_from_env(vars)
             .iter()
             .filter_map(|lang| find_existing_language_name(lang))
             .collect();
@@ -115,8 +136,38 @@ mod gettext_impl {
 /// Updates internal state such that the correct localizations will be used in subsequent
 /// localization requests.
 #[cfg(feature = "localize")]
-pub fn update_locale_from_env() {
-    gettext_impl::update_locale_from_env();
+pub fn update_locale_from_env(vars: &EnvStack) {
+    gettext_impl::update_locale_from_env(vars);
+}
+
+/// This function only exists to provide a way for initializing gettext before an [`EnvStack`] is
+/// available. Without this, early error messages cannot be localized.
+#[cfg(feature = "localize")]
+pub fn initialize_gettext() {
+    use crate::env::EnvMode;
+
+    let locale_vars = EnvStack::new();
+    if let Ok(language) = std::env::var("LANGUAGE") {
+        locale_vars.set_one(
+            L!("LANGUAGE"),
+            EnvMode::GLOBAL,
+            WString::from_str(&language),
+        );
+    }
+    if let Ok(lc_all) = std::env::var("LC_ALL") {
+        locale_vars.set_one(L!("LC_ALL"), EnvMode::GLOBAL, WString::from_str(&lc_all));
+    }
+    if let Ok(lc_messages) = std::env::var("LC_MESSAGES") {
+        locale_vars.set_one(
+            L!("LC_MESSAGES"),
+            EnvMode::GLOBAL,
+            WString::from_str(&lc_messages),
+        );
+    }
+    if let Ok(lang) = std::env::var("LANG") {
+        locale_vars.set_one(L!("LANG"), EnvMode::GLOBAL, WString::from_str(&lang));
+    }
+    gettext_impl::update_locale_from_env(&locale_vars);
 }
 
 /// Use this function to localize a message.
