@@ -201,6 +201,7 @@ impl LocalizationState {
             if is_c_locale(locale) {
                 self.precedence_origin =
                     LanguagePrecedenceOrigin::LocaleVariable(*precedence_origin);
+                fish_fluent::set_language_precedence(&[]);
                 fish_gettext::set_language_precedence(&[]);
                 return;
             }
@@ -237,6 +238,11 @@ impl LocalizationState {
                 .collect();
             set_language_precedence(&language_precedence);
         }
+        update_precedence(
+            &language_list,
+            fish_fluent::get_available_languages,
+            fish_fluent::set_language_precedence,
+        );
         update_precedence(
             &language_list,
             fish_gettext::get_available_languages,
@@ -286,6 +292,12 @@ impl LocalizationState {
                 .collect();
             set_language_precedence(&unique_langs);
         }
+        update_precedence(
+            &unique_lang_strs,
+            fish_fluent::get_available_languages,
+            fish_fluent::set_language_precedence,
+            &mut all_available_langs,
+        );
         update_precedence(
             &unique_lang_strs,
             fish_gettext::get_available_languages,
@@ -384,8 +396,10 @@ pub fn status_language() -> WString {
         "Active languages (source: %s):",
         origin_string
     ));
-    let gettext_language_precedence = fish_gettext::get_language_precedence();
-    append_space_separated_list(&mut result, &gettext_language_precedence);
+    result.push_str("\n  Fluent:");
+    append_space_separated_list(&mut result, fish_fluent::get_language_precedence());
+    result.push_str("\n  gettext:");
+    append_space_separated_list(&mut result, fish_gettext::get_language_precedence());
     result.push('\n');
 
     result
@@ -401,6 +415,7 @@ pub fn list_available_languages() -> WString {
             language_set.insert(lang);
         }
     }
+    add_languages(&mut language_set, fish_fluent::get_available_languages);
     add_languages(&mut language_set, fish_gettext::get_available_languages);
     let mut language_list = Vec::from_iter(language_set);
     language_list.sort();
