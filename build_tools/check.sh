@@ -62,6 +62,9 @@ cargo() {
 
 # shellcheck disable=2317,2329
 cleanup () {
+    if [ -n "$fluent_id_dir" ] && [ -e "$fluent_id_dir" ]; then
+        rm -r "$fluent_id_dir"
+    fi
     if [ -n "$gettext_template_dir" ] && [ -e "$gettext_template_dir" ]; then
         rm -r "$gettext_template_dir"
     fi
@@ -88,11 +91,14 @@ if [ -n "$FISH_TEST_MAX_CONCURRENCY" ]; then
     export CARGO_BUILD_JOBS="$FISH_TEST_MAX_CONCURRENCY"
 fi
 
+fluent_id_dir=$(mktemp -d)
 gettext_template_dir=$(mktemp -d)
 (
     # shellcheck disable=2030
+    export FISH_FLUENT_ID_DIR="$fluent_id_dir"
+    # shellcheck disable=2030
     export FISH_GETTEXT_EXTRACTION_DIR="$gettext_template_dir"
-    cargo build --workspace --all-targets --features=gettext-extract
+    cargo build --workspace --all-targets --features=fluent-extract,gettext-extract
 )
 if $lint; then
     if command -v cargo-deny >/dev/null; then
@@ -124,6 +130,8 @@ fi
         PATH="$PATH:$(rustc --print target-libdir)"
         export PATH
     fi
+    # shellcheck disable=2031
+    export FISH_FLUENT_ID_DIR="$fluent_id_dir"
     cargo test --no-default-features --workspace --all-targets
 )
 cargo test --doc --workspace

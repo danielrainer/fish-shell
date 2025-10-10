@@ -8,6 +8,7 @@ use std::{
 use anyhow::{Context, Result, bail};
 use walkdir::WalkDir;
 
+pub mod fluent;
 pub mod format;
 pub mod gettext;
 pub mod shellcheck;
