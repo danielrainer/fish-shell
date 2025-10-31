@@ -22,7 +22,7 @@ use fish::{
     builtins::{
         error::Error,
         fish_indent, fish_key_reader,
-        shared::{STATUS_CMD_ERROR, STATUS_CMD_OK, STATUS_CMD_UNKNOWN, VERSION_STRING_TEMPLATE},
+        shared::{STATUS_CMD_ERROR, STATUS_CMD_OK, STATUS_CMD_UNKNOWN},
     },
     common::{PACKAGE_NAME, PROFILING_ACTIVE, PROGRAM_NAME},
     env::{
@@ -308,7 +308,11 @@ fn fish_parse_opt(args: &mut [WString], opts: &mut FishCmdOpts) -> ControlFlow<i
             'v' => {
                 printf!(
                     "%s\n",
-                    wgettext_fmt!(VERSION_STRING_TEMPLATE, PACKAGE_NAME, fish::BUILD_VERSION)
+                    localize!(
+                        "fish-version",
+                        package_name = PACKAGE_NAME,
+                        version = fish::BUILD_VERSION
+                    )
                 );
                 return ControlFlow::Break(0);
             }
