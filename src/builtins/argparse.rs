@@ -12,12 +12,12 @@ use crate::{err_fmt, err_str};
 const VAR_NAME_PREFIX: &wstr = L!("_flag_");
 
 localizable_consts!(
-    BUILTIN_ERR_INVALID_OPT_SPEC
-    "Invalid option spec '%s' at char '%c'"
-
     MISSING_DOUBLE_HYPHEN_SEPARATOR
     "Missing -- separator"
 );
+fluent_ids! {
+    BUILTIN_ERR_INVALID_OPT_SPEC "argparse-invalid-option-spec"
+}
 
 #[derive(Default)]
 struct OptionSpec<'args> {
@@ -249,18 +249,24 @@ fn parse_flag_modifiers<'args>(
 
     if s.char_at(0) == '!' {
         if opt_spec.arg_type == ArgType::NoArgument {
-            err_fmt!(BUILTIN_ERR_INVALID_OPT_SPEC, option_spec, s.char_at(0))
-                .cmd(&opts.name)
-                .finish(streams);
+            streams.err.appendln(&localize!(
+                BUILTIN_ERR_INVALID_OPT_SPEC,
+                command_name = &opts.name,
+                option_spec = option_spec,
+                bad_char = s.char_at(0)
+            ));
         }
         s = s.slice_from(1);
         opt_spec.validation_command = s;
         // Move cursor to the end so we don't expect a long flag.
         s = s.slice_from(s.char_count());
     } else if !s.is_empty() {
-        err_fmt!(BUILTIN_ERR_INVALID_OPT_SPEC, option_spec, s.char_at(0))
-            .cmd(&opts.name)
-            .finish(streams);
+        streams.err.appendln(&localize!(
+            BUILTIN_ERR_INVALID_OPT_SPEC,
+            command_name = &opts.name,
+            option_spec = option_spec,
+            bad_char = s.char_at(0),
+        ));
         return false;
     }
 
@@ -321,18 +327,24 @@ fn parse_option_spec_sep<'args>(
             opt_spec.short_flag_valid = false;
             i += 1;
             if i == s.char_count() {
-                err_fmt!(BUILTIN_ERR_INVALID_OPT_SPEC, option_spec, s.char_at(i - 1))
-                    .cmd(&opts.name)
-                    .finish(streams);
+                streams.err.appendln(&localize!(
+                    BUILTIN_ERR_INVALID_OPT_SPEC,
+                    command_name = &opts.name,
+                    option_spec = option_spec,
+                    bad_char = s.char_at(i - 1),
+                ));
                 return false;
             }
         }
         '/' => {
             i += 1; // the struct is initialized assuming short_flag_valid should be true
             if i == s.char_count() {
-                err_fmt!(BUILTIN_ERR_INVALID_OPT_SPEC, option_spec, s.char_at(i - 1))
-                    .cmd(&opts.name)
-                    .finish(streams);
+                streams.err.appendln(&localize!(
+                    BUILTIN_ERR_INVALID_OPT_SPEC,
+                    command_name = &opts.name,
+                    option_spec = option_spec,
+                    bad_char = s.char_at(i - 1)
+                ));
                 return false;
             }
         }
