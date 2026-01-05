@@ -26,6 +26,8 @@ enum Task {
     },
     /// Build man pages
     ManPages,
+    /// Run checks with sanitizers enabled
+    Sanitize,
 }
 
 fn main() {
@@ -34,6 +36,7 @@ fn main() {
         Task::Check => run_checks(),
         Task::HtmlDocs { fish_indent } => build_html_docs(fish_indent),
         Task::ManPages => cargo(["build", "--package", "fish-build-man-pages"]),
+        Task::Sanitize => run_sanitizer(),
     }
 }
 
@@ -41,6 +44,12 @@ fn run_checks() {
     let repo_root_dir = fish_build_helper::workspace_root();
     let check_script = repo_root_dir.join("build_tools").join("check.sh");
     Command::new(check_script).run_or_panic();
+}
+
+fn run_sanitizer() {
+    let repo_root_dir = fish_build_helper::workspace_root();
+    let sanitizer_script = repo_root_dir.join("build_tools").join("sanitize.sh");
+    Command::new(sanitizer_script).run_or_panic();
 }
 
 fn build_html_docs(fish_indent: Option<PathBuf>) {
