@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 
-use crate::prelude::*;
 use fish_common::assert_sorted_by_name;
+use widestring::{Utf32Str as wstr, utf32str as L};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Color24 {
