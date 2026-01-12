@@ -17,6 +17,7 @@ cfg-if = "1.0.3"
 errno = "0.3.0"
 fish-build-helper = { path = "crates/build-helper" }
 fish-build-man-pages = { path = "crates/build-man-pages" }
+fish-color = { path = "crates/color" }
 fish-common = { path = "crates/common" }
 fish-fallback = { path = "crates/fallback" }
 fish-gettext = { path = "crates/gettext" }
@@ -93,6 +94,7 @@ cfg-if.workspace = true
 errno.workspace = true
 fish-build-helper.workspace = true
 fish-build-man-pages = { workspace = true, optional = true }
+fish-color.workspace = true
 fish-common.workspace = true
 fish-fallback.workspace = true
 fish-gettext = { workspace = true, optional = true }
@@ -187,7 +189,7 @@ rustdoc.private_intra_doc_links = "allow"
 assigning_clones = "warn"
 implicit_clone = "warn"
 cloned_instead_of_copied = "warn"
-len_without_is_empty = "allow"     # we're not a library crate
+len_without_is_empty = "allow"    # we're not a library crate
 let_and_return = "allow"
 manual_range_contains = "allow"
 map_unwrap_or = "warn"

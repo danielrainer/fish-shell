@@ -322,8 +322,8 @@ fn term256_color_for_rgb(color: Color24) -> u8 {
 
 #[cfg(test)]
 mod tests {
-    use crate::color::{Color, Color24};
-    use crate::prelude::*;
+    use super::{Color, Color24};
+    use widestring::utf32str as L;
 
     #[test]
     fn parse() {
