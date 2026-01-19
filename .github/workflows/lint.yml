@@ -14,7 +14,9 @@ jobs:
       with:
         components: rustfmt
     - name: install dependencies
-      run: pip install ruff
+      run: |
+        pip install ruff
+        cargo install taplo-cli
     - name: build fish
       run: cargo build
     - name: check format

@@ -30,7 +30,8 @@ if test $all = yes
     if not set -l -q _flag_force; and not set -l -q _flag_check
         # Potential for false positives: Not all fish files are formatted, see the `fish_files`
         # definition below.
-        set -l relevant_uncommitted_changes (git status --porcelain --short --untracked-files=all | sed -e 's/^ *[^ ]* *//' | grep -E '.*\.(fish|py|rs)$')
+        set -l relevant_uncommitted_changes (git status --porcelain --short --untracked-files=all |
+            sed -e 's/^ *[^ ]* *//' | grep -E '.*\.(fish|py|rs|toml)$')
         if set -q relevant_uncommitted_changes[1]
             for changed_file in $relevant_uncommitted_changes
                 echo $changed_file
@@ -45,12 +46,14 @@ if test $all = yes
     end
     set fish_files $workspace_root/{benchmarks,build_tools,etc,share}/**.fish
     set python_files $workspace_root
+    set toml_files $workspace_root/**.toml
 else
     # Format the files specified as arguments.
     set -l files $argv
     set fish_files (string match -r '^.*\.fish$' -- $files)
     set python_files (string match -r '^.*\.py$' -- $files)
     set rust_files (string match -r '^.*\.rs$' -- $files)
+    set toml_files (string match -r '^.*\.toml$' -- $files)
 end
 
 set -l red (set_color red)
@@ -119,5 +122,20 @@ if test $all = yes; or set -q rust_files[1]
         else
             rustfmt $rust_files
         end
+    end
+end
+
+if set -q toml_files[1]
+    if not type -q taplo
+        echo
+        echo $yellow'Please install `taplo` to style TOML'$normal
+        exit 127
+    end
+    echo === Running "$green"taplo fmt"$normal"
+    if set -l -q _flag_check
+        taplo fmt --check $toml_files
+        or die "TOML files are not formatted correctly."
+    else
+        taplo fmt $toml_files
     end
 end

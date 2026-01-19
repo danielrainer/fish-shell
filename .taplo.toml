@@ -1,0 +1,2 @@
+formatting.indent_string = "    "
+formatting.reorder_keys = true
