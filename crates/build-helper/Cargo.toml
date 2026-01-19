@@ -1,10 +1,10 @@
 [package]
-name = "fish-build-helper"
 edition.workspace = true
+license.workspace = true
+name = "fish-build-helper"
+repository.workspace = true
 rust-version.workspace = true
 version = "0.0.0"
-repository.workspace = true
-license.workspace = true
 
 [dependencies]
 rsconf.workspace = true

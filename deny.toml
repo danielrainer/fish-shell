@@ -1,7 +1,5 @@
 [licenses]
 # We want really high confidence when inferring licenses from text
-confidence-threshold = 0.93
-unused-allowed-license = "allow" # don't warn for unused licenses in this list
 allow = [
     "BSD-2-Clause",
     "BSD-3-Clause",
@@ -20,6 +18,8 @@ allow = [
     "WTFPL",
     "Zlib",
 ]
+confidence-threshold = 0.93
+unused-allowed-license = "allow" # don't warn for unused licenses in this list
 
 [sources.allow-org]
 # 1 or more github.com organizations to allow git sources for

@@ -1,10 +1,10 @@
 [package]
-name = "fish-gettext-maps"
 edition.workspace = true
+license.workspace = true
+name = "fish-gettext-maps"
+repository.workspace = true
 rust-version.workspace = true
 version = "0.0.0"
-repository.workspace = true
-license.workspace = true
 
 [dependencies]
 phf.workspace = true

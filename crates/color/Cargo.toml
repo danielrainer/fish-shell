@@ -1,10 +1,10 @@
 [package]
-name = "fish-color"
 edition.workspace = true
+license.workspace = true
+name = "fish-color"
+repository.workspace = true
 rust-version.workspace = true
 version = "0.0.0"
-repository.workspace = true
-license.workspace = true
 
 [dependencies]
 fish-common.workspace = true
