@@ -364,9 +364,6 @@ msgstr "無法確定所指的作業"
 msgid "An error occurred while setting up pipe"
 msgstr "設置管道時發生錯誤"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr "選項規格必須至少有一個短旗標或長旗標"
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "引數「%s」超出範圍"
@@ -745,14 +742,6 @@ msgid "Illegal instruction"
 msgstr "非法的指令"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "定義過隱式整數旗標「%c」了"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "隱式整數短旗標「%c」不允許加上「%c」等修飾"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr "未完成的轉義序列「%s」"
 
@@ -768,18 +757,6 @@ msgstr "內部（非分叉的）行程事件"
 
 msgid "Internal details of the topic monitor"
 msgstr "主題監聽的內部資訊"
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr "無效的 --max-args 值「%s」"
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr "無效的 --min-args 值「%s」"
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
-msgstr "無效的 --unknown-arguments 值「%s」"
 
 #, c-format
 msgid "Invalid arg: %s"
@@ -934,10 +911,6 @@ msgstr "列出或移除函式"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr "不支援邏輯運算，請改用「test」"
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr "定義過長旗標「%s」了"
-
 msgid "Manage abbreviations"
 msgstr "管理縮寫"
 
@@ -955,9 +928,6 @@ msgstr "不對稱的大括弧"
 
 msgid "Mismatched parenthesis"
 msgstr "不對稱的小括弧"
-
-msgid "Missing -- separator"
-msgstr "缺少 -- 分隔"
 
 msgid "Missing closing parenthesis"
 msgstr "缺少右小括弧"
@@ -1227,14 +1197,6 @@ msgstr "設定或取得命令行"
 msgid "Set the terminal color"
 msgstr "設定終端機顏色"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr "定義過短旗標「%c」了"
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr "短旗標「%c」無效，必須是字母、數字、或「#」"
-
 msgid "Show absolute path sans symlinks"
 msgstr "顯示不包含象徵式連結的絕對路徑"
 
@@ -1362,9 +1324,6 @@ msgstr "引數太多"
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
 msgstr "太多層象徵式連結：「%s」"
-
-msgid "Too many long-only options"
-msgstr "太多僅有長旗標的選項"
 
 msgid "Too much data emitted by command substitution so it was discarded"
 msgstr "命令替換發出的資料太多，丟棄之"
@@ -1633,14 +1592,6 @@ msgstr "目錄"
 
 msgid "error"
 msgstr "錯誤"
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "互斥旗標「%s」無效"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "互斥旗標字串「%s」無效"
 
 #, c-format
 msgid "expected %d arguments; got %d"

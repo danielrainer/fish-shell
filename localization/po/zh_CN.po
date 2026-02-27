@@ -391,9 +391,6 @@ msgstr "有歧义的作业"
 msgid "An error occurred while setting up pipe"
 msgstr "设置管道时出错"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr "选项规范必须至少包含一个短标识或长标识"
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "参数 '%s' 超出取值范围"
@@ -772,14 +769,6 @@ msgid "Illegal instruction"
 msgstr "非法指令"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "隐式整形标识 '%c' 已被定义"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "隐式整形短标识 '%c' 不能带有形如 '%c' 的修饰符"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr "不完整的转义序列 '%s'"
 
@@ -795,18 +784,6 @@ msgstr "内部 (非 fork) 进程事件"
 
 msgid "Internal details of the topic monitor"
 msgstr "主题监视器的内部细节"
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr "无效的 --max-args 值 '%s'"
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr "无效的 --min-args 值 '%s'"
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
-msgstr "无效的 --unknown-arguments 值 '%s'"
 
 #, c-format
 msgid "Invalid arg: %s"
@@ -961,10 +938,6 @@ msgstr "列出或移除函数"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr "不支持逻辑运算，使用 `test` 替代"
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr "长标识 '%s' 已定义"
-
 msgid "Manage abbreviations"
 msgstr "管理缩写"
 
@@ -982,9 +955,6 @@ msgstr "大括号不匹配"
 
 msgid "Mismatched parenthesis"
 msgstr "括号不匹配"
-
-msgid "Missing -- separator"
-msgstr "缺少 -- 分隔符"
 
 msgid "Missing closing parenthesis"
 msgstr "缺少收尾括号"
@@ -1253,14 +1223,6 @@ msgstr "设置或获取命令行"
 msgid "Set the terminal color"
 msgstr "设置终端颜色"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr "已经定义了短标识 '%c'"
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr "短标识 '%c' 无效，必须是字母、数字或 '#'"
-
 msgid "Show absolute path sans symlinks"
 msgstr "显示绝对路径，不含符号链接"
 
@@ -1388,9 +1350,6 @@ msgstr "参数太多"
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
 msgstr "符号链接的级别过多：'%s'"
-
-msgid "Too many long-only options"
-msgstr "过多的仅长选项"
 
 msgid "Too much data emitted by command substitution so it was discarded"
 msgstr "命令替换生成的数据过多，因此被丢弃"
@@ -1659,14 +1618,6 @@ msgstr "目录"
 
 msgid "error"
 msgstr "错误"
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "排他标识 '%s' 无效"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "排他标识字符串 '%s' 无效"
 
 #, c-format
 msgid "expected %d arguments; got %d"

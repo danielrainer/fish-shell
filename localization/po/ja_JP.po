@@ -369,9 +369,6 @@ msgstr "ジョブを特定できません"
 msgid "An error occurred while setting up pipe"
 msgstr "パイプの設定中にエラーが発生しました"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr "オプション仕様には、少なくとも短縮フラグまたはロングフラグが必要です"
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "引数 '%s' は範囲外です"
@@ -750,14 +747,6 @@ msgid "Illegal instruction"
 msgstr "不正な命令(Illegal instruction)"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "暗黙的な整数フラグ '%c' はすでに定義されています"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "暗黙的な整数の短縮フラグ '%c' では '%c' のような修飾子は使用できません"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr "不完全なエスケープシーケンス '%s' です"
 
@@ -773,18 +762,6 @@ msgstr "内部(フォークされていない)プロセスイベント"
 
 msgid "Internal details of the topic monitor"
 msgstr "トピックモニターの内部詳細"
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr "--max-args の値 '%s' は無効です"
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr "--min-args の値 '%s' が無効です"
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
-msgstr "--unknown-arguments の値 '%s' が無効です"
 
 #, c-format
 msgid "Invalid arg: %s"
@@ -939,10 +916,6 @@ msgstr "関数の一覧表示、削除"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr "論理演算はサポートされていません。代わりに `test` を使用してください"
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr "ロングフラグ '%s' はすでに定義されています"
-
 msgid "Manage abbreviations"
 msgstr "略語(abbreviation)を管理します"
 
@@ -960,9 +933,6 @@ msgstr "中括弧 { } の対応が取れていません"
 
 msgid "Mismatched parenthesis"
 msgstr "括弧() の対応が取れていません"
-
-msgid "Missing -- separator"
-msgstr "-- セパレータがありません"
 
 msgid "Missing closing parenthesis"
 msgstr "閉じ括弧)が足りません"
@@ -1231,14 +1201,6 @@ msgstr "コマンドラインの設定、取得"
 msgid "Set the terminal color"
 msgstr "ターミナルの色を設定"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr "短縮フラグ '%c' はすでに定義されています"
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr "短縮フラグ '%c' は無効です。英数字または '#' である必要があります"
-
 msgid "Show absolute path sans symlinks"
 msgstr "シンボリックリンクを含まない絶対パスを表示します"
 
@@ -1366,9 +1328,6 @@ msgstr "引数が多すぎます"
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
 msgstr "シンボリックリンクの階層が深すぎます: '%s'"
-
-msgid "Too many long-only options"
-msgstr "ロングフラグのみのオプションが多すぎます"
 
 msgid "Too much data emitted by command substitution so it was discarded"
 msgstr "コマンド置換によって出力されたデータが多すぎるため、破棄されました"
@@ -1637,14 +1596,6 @@ msgstr "ディレクトリ"
 
 msgid "error"
 msgstr "エラー"
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "排他的なフラグ '%s' は有効ではありません"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "排他的なフラグ文字列 '%s' は有効ではありません"
 
 #, c-format
 msgid "expected %d arguments; got %d"

@@ -367,9 +367,6 @@ msgstr "Mer än ett jobb matchar"
 msgid "An error occurred while setting up pipe"
 msgstr "Ett fel inträffade under skapandet av ett rör"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr ""
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr ""
@@ -748,14 +745,6 @@ msgid "Illegal instruction"
 msgstr "Ogiltig instruktion"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr ""
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr ""
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr ""
 
@@ -770,18 +759,6 @@ msgid "Internal (non-forked) process events"
 msgstr ""
 
 msgid "Internal details of the topic monitor"
-msgstr ""
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr ""
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr ""
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
 msgstr ""
 
 #, c-format
@@ -937,10 +914,6 @@ msgstr "Visa eller ta bort funktioner"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr ""
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr ""
-
 msgid "Manage abbreviations"
 msgstr ""
 
@@ -957,9 +930,6 @@ msgid "Mismatched braces"
 msgstr ""
 
 msgid "Mismatched parenthesis"
-msgstr ""
-
-msgid "Missing -- separator"
 msgstr ""
 
 msgid "Missing closing parenthesis"
@@ -1229,14 +1199,6 @@ msgstr "Ändra eller visa kommandoraden"
 msgid "Set the terminal color"
 msgstr ""
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr ""
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr ""
-
 msgid "Show absolute path sans symlinks"
 msgstr ""
 
@@ -1363,9 +1325,6 @@ msgstr "För många argument"
 
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
-msgstr ""
-
-msgid "Too many long-only options"
 msgstr ""
 
 msgid "Too much data emitted by command substitution so it was discarded"
@@ -1634,14 +1593,6 @@ msgid "directory"
 msgstr ""
 
 msgid "error"
-msgstr ""
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr ""
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
 msgstr ""
 
 #, c-format

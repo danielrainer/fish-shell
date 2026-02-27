@@ -499,9 +499,6 @@ msgstr "Tâche ambiguë"
 msgid "An error occurred while setting up pipe"
 msgstr "Une erreur est survenue lors du paramétrage du tube"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr "Une spécification d’option doit avoir au moins un nom court ou long"
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "L’argument « %s » est hors limites"
@@ -880,14 +877,6 @@ msgid "Illegal instruction"
 msgstr "Instruction illégale"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "Le sémaphore implicitement entier « %c » est déjà défini"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "Le sémaphore court implicitement entier « %c » n’autorise pas de modificateurs comme « %c »"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr ""
 
@@ -903,18 +892,6 @@ msgstr ""
 
 msgid "Internal details of the topic monitor"
 msgstr ""
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr "La valeur « %s » de --max-args est invalide"
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr "La valeur « %s » de --min-args est invalide"
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
-msgstr "La valeur « %s » de --unknown-arguments est invalide"
 
 #, c-format
 msgid "Invalid arg: %s"
@@ -1069,10 +1046,6 @@ msgstr "Lister ou supprimer des fonctions"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr ""
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr ""
-
 msgid "Manage abbreviations"
 msgstr ""
 
@@ -1090,9 +1063,6 @@ msgstr ""
 
 msgid "Mismatched parenthesis"
 msgstr ""
-
-msgid "Missing -- separator"
-msgstr "Séparateur -- manquant"
 
 msgid "Missing closing parenthesis"
 msgstr ""
@@ -1361,14 +1331,6 @@ msgstr "Paramétrer ou obtenir la ligne de commande"
 msgid "Set the terminal color"
 msgstr "Paramétrer la couleur du terminal"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr ""
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr "Le sémaphore « %c » est invalide : il doit être alphanumérique ou valoir « # »"
-
 msgid "Show absolute path sans symlinks"
 msgstr ""
 
@@ -1495,9 +1457,6 @@ msgstr "Trop d’arguments"
 
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
-msgstr ""
-
-msgid "Too many long-only options"
 msgstr ""
 
 msgid "Too much data emitted by command substitution so it was discarded"
@@ -1767,14 +1726,6 @@ msgstr ""
 
 msgid "error"
 msgstr ""
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "le sémaphore exclusif « %s » est invalide"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "le sémaphore texte exclusif « %s » est invalide"
 
 #, c-format
 msgid "expected %d arguments; got %d"

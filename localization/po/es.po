@@ -370,9 +370,6 @@ msgstr "Tarea ambigua"
 msgid "An error occurred while setting up pipe"
 msgstr "Ocurrió un error al configurar la tubería (pipe)"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr "Una especificación de opción debe tener al menos un flag corto o largo"
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "El argumento '%s' está fuera de rango"
@@ -751,14 +748,6 @@ msgid "Illegal instruction"
 msgstr "Instrucción ilegal"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "La opción entera implícita '%c' ya está definida"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "La opción corta entera implícita '%c' no permite modificadores como '%c'"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr "Secuencia de escape incompleta '%s'"
 
@@ -774,18 +763,6 @@ msgstr "Eventos de procesos internos (sin fork)"
 
 msgid "Internal details of the topic monitor"
 msgstr "Detalles internos del monitor de temas"
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr "Valor no válido para --max-args '%s'"
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr "Valor no válido para --min-args '%s'"
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
-msgstr "Valor no válido para --unknown-arguments '%s'"
 
 #, c-format
 msgid "Invalid arg: %s"
@@ -940,10 +917,6 @@ msgstr "Listar o eliminar funciones"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr "Las operaciones lógicas no están soportadas; usa `test` en su lugar"
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr "La opción larga '%s' ya está definida"
-
 msgid "Manage abbreviations"
 msgstr "Gestionar abreviaturas"
 
@@ -961,9 +934,6 @@ msgstr "Llaves desbalanceadas"
 
 msgid "Mismatched parenthesis"
 msgstr "Paréntesis desbalanceado"
-
-msgid "Missing -- separator"
-msgstr "Falta el separador --"
 
 msgid "Missing closing parenthesis"
 msgstr "Falta un paréntesis de cierre"
@@ -1232,14 +1202,6 @@ msgstr "Establecer u obtener la línea de comandos"
 msgid "Set the terminal color"
 msgstr "Establecer el color del terminal"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr "La opción corta '%c' ya está definida"
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr "La opción corta '%c' no es válida, debe ser alfanumérica o '#'"
-
 msgid "Show absolute path sans symlinks"
 msgstr "Mostrar la ruta absoluta sin enlaces simbólicos"
 
@@ -1367,9 +1329,6 @@ msgstr "Demasiados argumentos"
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
 msgstr "Demasiados niveles de enlaces simbólicos: '%s'"
-
-msgid "Too many long-only options"
-msgstr "Hay demasiadas opciones solo en formato largo"
 
 msgid "Too much data emitted by command substitution so it was discarded"
 msgstr "La sustitución de comando emitió demasiados datos, por lo que fueron descartados"
@@ -1638,14 +1597,6 @@ msgstr "directorio"
 
 msgid "error"
 msgstr "error"
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "la opción exclusiva '%s' no es válida"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "el string de opciones exclusivas '%s' no es válido"
 
 #, c-format
 msgid "expected %d arguments; got %d"

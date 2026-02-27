@@ -370,9 +370,6 @@ msgstr "Mehrdeutiger Job"
 msgid "An error occurred while setting up pipe"
 msgstr "Fehler beim Einrichten der Pipe aufgetreten"
 
-msgid "An option spec must have at least a short or a long flag"
-msgstr ""
-
 #, c-format
 msgid "Argument '%s' is out of range"
 msgstr "Argument '%s' ist außerhalb des Definitionsbereichs"
@@ -751,14 +748,6 @@ msgid "Illegal instruction"
 msgstr "Illegale Instruktion"
 
 #, c-format
-msgid "Implicit int flag '%c' already defined"
-msgstr "Implizite Zahloption '%c' ist schon definiert"
-
-#, c-format
-msgid "Implicit int short flag '%c' does not allow modifiers like '%c'"
-msgstr "Implizite Zahloption '%c' darf keine Modifikatoren wie '%c' haben"
-
-#, c-format
 msgid "Incomplete escape sequence '%s'"
 msgstr "Unvollständige Escapesequenz '%s'"
 
@@ -773,18 +762,6 @@ msgid "Internal (non-forked) process events"
 msgstr ""
 
 msgid "Internal details of the topic monitor"
-msgstr ""
-
-#, c-format
-msgid "Invalid --max-args value '%s'"
-msgstr ""
-
-#, c-format
-msgid "Invalid --min-args value '%s'"
-msgstr ""
-
-#, c-format
-msgid "Invalid --unknown-arguments value '%s'"
 msgstr ""
 
 #, c-format
@@ -940,10 +917,6 @@ msgstr "Funktionen auflisten oder entfernen"
 msgid "Logical operations are not supported, use `test` instead"
 msgstr "Logikoperationen werden nicht unterstützt, nimm stattdessen `test`"
 
-#, c-format
-msgid "Long flag '%s' already defined"
-msgstr ""
-
 msgid "Manage abbreviations"
 msgstr "Abkürzungen verwalten"
 
@@ -961,9 +934,6 @@ msgstr "Unausgeglichene Klammern"
 
 msgid "Mismatched parenthesis"
 msgstr "Unausgeglichene Klammer"
-
-msgid "Missing -- separator"
-msgstr "Fehlendes '--'-Trennzeichen"
 
 msgid "Missing closing parenthesis"
 msgstr "Fehlende schließende Klammer"
@@ -1232,14 +1202,6 @@ msgstr "Festlegen oder Abrufen der Befehlszeile"
 msgid "Set the terminal color"
 msgstr "Setzen der Terminalfarbe"
 
-#, c-format
-msgid "Short flag '%c' already defined"
-msgstr ""
-
-#, c-format
-msgid "Short flag '%c' invalid, must be alphanum or '#'"
-msgstr ""
-
 msgid "Show absolute path sans symlinks"
 msgstr "Absoluten Pfad ohne symbolische Verknüpfungen anzeigen"
 
@@ -1367,9 +1329,6 @@ msgstr "Zu viele Argumente"
 #, c-format
 msgid "Too many levels of symbolic links: '%s'"
 msgstr "Zu viele Ebenen von symbolischen Links: '%s'"
-
-msgid "Too many long-only options"
-msgstr ""
 
 msgid "Too much data emitted by command substitution so it was discarded"
 msgstr ""
@@ -1638,14 +1597,6 @@ msgstr "Verzeichnis"
 
 msgid "error"
 msgstr "Fehler"
-
-#, c-format
-msgid "exclusive flag '%s' is not valid"
-msgstr "Exklusive Option '%s' ist ungültig"
-
-#, c-format
-msgid "exclusive flag string '%s' is not valid"
-msgstr "Exklusive Option '%s' ist ungültig"
 
 #, c-format
 msgid "expected %d arguments; got %d"
