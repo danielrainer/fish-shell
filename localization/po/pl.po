@@ -6124,9 +6124,6 @@ msgstr ""
 msgid "Additional `Cargo.toml` to sync and vendor"
 msgstr ""
 
-msgid "Additional directories to search for fonts"
-msgstr ""
-
 msgid "Additional flag for strings inside the argument number ARG of keyword WORD"
 msgstr ""
 
@@ -11942,9 +11939,6 @@ msgid "Compile a project given a valid configuration file"
 msgstr ""
 
 msgid "Compile all the methods in an assembly"
-msgstr ""
-
-msgid "Compile an input file"
 msgstr ""
 
 msgid "Compile and run an executable product"
@@ -26137,9 +26131,6 @@ msgstr ""
 msgid "Extract into directory"
 msgstr ""
 
-msgid "Extract just one field"
-msgstr ""
-
 msgid "Extract most recent versions of files"
 msgstr ""
 
@@ -27415,9 +27406,6 @@ msgstr ""
 msgid "Force a complete refresh"
 msgstr ""
 
-msgid "Force a downgrade to an older version"
-msgstr ""
-
 msgid "Force a fixed checksum block-size"
 msgstr ""
 
@@ -28210,9 +28198,6 @@ msgstr ""
 msgid "Format of the list command output"
 msgstr ""
 
-msgid "Format of the output file"
-msgstr ""
-
 msgid "Format of the output: text or json"
 msgstr ""
 
@@ -28247,12 +28232,6 @@ msgid "Format string with %(fieldname) placeholders"
 msgstr ""
 
 msgid "Format the print file with a shaded header: date, time, job name, and page no."
-msgstr ""
-
-msgid "Format to emit diagnostics in"
-msgstr ""
-
-msgid "Format to serialize in"
 msgstr ""
 
 msgid "Format to use for the output"
@@ -32317,9 +32296,6 @@ msgstr ""
 msgid "Initialize a new or existing Terraform configuration"
 msgstr ""
 
-msgid "Initialize a new project"
-msgstr ""
-
 msgid "Initialize a new repository for the given version control system"
 msgstr ""
 
@@ -34369,9 +34345,6 @@ msgstr ""
 msgid "List all directories from which unit files may be loaded"
 msgstr ""
 
-msgid "List all discovered fonts"
-msgstr ""
-
 msgid "List all dist-tags"
 msgstr ""
 
@@ -35972,9 +35945,6 @@ msgid "List statistical information from the server"
 msgstr ""
 
 msgid "List stemcells"
-msgstr ""
-
-msgid "List style variants of each family"
 msgstr ""
 
 msgid "List subcommands"
@@ -40540,9 +40510,6 @@ msgstr ""
 msgid "Open non-regular files"
 msgstr ""
 
-msgid "Open output file after compilation"
-msgstr ""
-
 msgid "Open package repository page in the browser"
 msgstr ""
 
@@ -42514,9 +42481,6 @@ msgstr ""
 msgid "Path to config file. Default ~/.config/mariner/config.yaml"
 msgstr ""
 
-msgid "Path to custom CA certificate"
-msgstr ""
-
 msgid "Path to db to use"
 msgstr ""
 
@@ -43199,9 +43163,6 @@ msgid "Pixel color interpolation method [method]"
 msgstr ""
 
 msgid "Pixel storage type [type]"
-msgstr ""
-
-msgid "Pixels per inch for PNG export"
 msgstr ""
 
 msgid "Place comment block with TAG (or those preceding keyword lines) in output file"
@@ -44816,9 +44777,6 @@ msgid "Print help explaining the command line options"
 msgstr ""
 
 msgid "Print help for `zig`"
-msgstr ""
-
-msgid "Print help for the given subcommand(s)"
 msgstr ""
 
 msgid "Print help info and exit"
@@ -46783,9 +46741,6 @@ msgstr ""
 msgid "Process all users' calendars and mail the results"
 msgstr ""
 
-msgid "Process an input file to extract metadata"
-msgstr ""
-
 msgid "Process at queue only once"
 msgstr ""
 
@@ -46969,9 +46924,6 @@ msgstr ""
 msgid "Produce output in JSON format"
 msgstr ""
 
-msgid "Produce performance timings"
-msgstr ""
-
 msgid "Produce report on all TAGs"
 msgstr ""
 
@@ -47041,9 +46993,6 @@ msgstr ""
 msgid "Project author"
 msgstr ""
 
-msgid "Project directory"
-msgstr ""
-
 msgid "Project language"
 msgstr ""
 
@@ -47054,9 +47003,6 @@ msgid "Project path"
 msgstr ""
 
 msgid "Project release"
-msgstr ""
-
-msgid "Project root (for absolute paths)"
 msgstr ""
 
 msgid "Project type"
@@ -51592,9 +51538,6 @@ msgstr ""
 msgid "Retrieve current host IP address and place it under a configurable project property"
 msgstr ""
 
-msgid "Retrieve exactly one element"
-msgstr ""
-
 msgid "Retrieve fresh bugs"
 msgstr ""
 
@@ -51929,9 +51872,6 @@ msgid "Revert to previously booted tree"
 msgstr ""
 
 msgid "Revert to the received value if available"
-msgstr ""
-
-msgid "Revert to the version from before the last update"
 msgstr ""
 
 msgid "Review the control file before creating a .deb"
@@ -54530,9 +54470,6 @@ msgid "Selects what radiance level should be considered \"white\" [0..255]: 124"
 msgstr ""
 
 msgid "Selects which device lsusb will examine"
-msgstr ""
-
-msgid "Self update the Typst CLI"
 msgstr ""
 
 msgid "Semantic version category for new version"
@@ -57332,9 +57269,6 @@ msgid "Set warning level"
 msgstr ""
 
 msgid "Set watches"
-msgstr ""
-
-msgid "Set when to use color"
 msgstr ""
 
 msgid "Set where to write formatted output"
@@ -64996,9 +64930,6 @@ msgstr ""
 msgid "String as the value for the given key"
 msgstr ""
 
-msgid "String key-value pair for `sys.inputs`"
-msgstr ""
-
 msgid "String literal mode"
 msgstr ""
 
@@ -72521,9 +72452,6 @@ msgid "Watch a key or directory for changes"
 msgstr ""
 
 msgid "Watch a specific file or directory"
-msgstr ""
-
-msgid "Watch an input file and recompile on changes"
 msgstr ""
 
 msgid "Watch and list new logs"
